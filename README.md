@@ -44,7 +44,9 @@ curl -X POST http://localhost:3000/dogs/upsert \
 -H "Content-Type: application/json" \
 -d '{"name": "Buddy", "age": 3, "breed": "Labrador", "owner": "Dave"}'
 ```
-## Results
+## Results 
+Screenshot and logs contained in `manual-testing/results`
+
 Given the 4 API calls in the script with 2 of the calls being identical, typeorm generated 4 queries and the postgres logs show 4 updates.
 This is undexpected based on the hypothesis.
 
