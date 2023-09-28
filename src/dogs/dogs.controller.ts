@@ -36,8 +36,9 @@ export class DogsController {
   }
 
   @Post('upsert')
-  upsert(@Body() createDogDto: CreateDogDto) {
-    return this.dogsService.upsert(createDogDto);
+  upsert(@Body() updateDogDto: UpdateDogDto) {
+    console.debug('upsert received: ', updateDogDto);
+    return this.dogsService.upsert(updateDogDto);
   }
 
   @Delete(':id')

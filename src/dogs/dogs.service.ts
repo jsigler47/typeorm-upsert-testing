@@ -29,9 +29,9 @@ export class DogsService {
     return await this.dogsRepository.update(id, updateDogDto);
   }
 
-  async upsert(createDogDto: CreateDogDto) {
-    return await this.dogsRepository.upsert([createDogDto], {
-      conflictPaths: ['name', 'owner'],
+  async upsert(updateDogDto: UpdateDogDto) {
+    return await this.dogsRepository.upsert([updateDogDto], {
+      conflictPaths: ['id'],
       skipUpdateIfNoValuesChanged: true,
     });
   }

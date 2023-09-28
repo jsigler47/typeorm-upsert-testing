@@ -1,7 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-@Unique('dog_owner_constraint', ['name', 'owner'])
 export class Dog {
   @PrimaryGeneratedColumn()
   id: number;

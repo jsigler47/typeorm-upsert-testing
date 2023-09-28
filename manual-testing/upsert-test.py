@@ -3,10 +3,9 @@ import requests
 url = "http://localhost:3000/dogs"
 
 dogs = [
-    {"name": "Buddy", "age": 3, "breed": "Labrador", "owner": "Dave"},
-    {"name": "Lucy", "age": 2, "breed": "Bulldog", "owner": "Jenna"},
-    {"name": "Max", "age": 1, "breed": "German Shepherd", "owner": "Will"},
-    {"name": "Max", "age": 1, "breed": "German Shepherd", "owner": "Will"} # Should NOT call the database
+    {"id": 1000, "name": "Buddy", "age": 3, "breed": "Labrador", "owner": "Dave"},
+    {"id": 2000, "name": "Lucy", "age": 2, "breed": "Bulldog", "owner": "Jenna"},
+    {"id": 3000, "name": "Max", "age": 1, "breed": "German Shepherd", "owner": "Will"},
 ]
 
 def get_all_dog_ids(url):
@@ -34,12 +33,14 @@ def upsert_dogs(url, dogs):
     for dog in dogs:
         response = requests.post(url + '/upsert', json=dog)
         if response.status_code == 201:
-            print(f"Upsert successful for {dog['name']}. Response: {response.json()}")
+            print(f"Upsert successful for {dog['name']}. Response: {response.status_code}: {response.json()}")
         else:
             print(f"Upsert failed for {dog['name']}. Status Code: {response.status_code}")
 
 
-
-clear_database(url)
+# clear_database(url)
+print("All dogs: ", get_all_dog_ids(url))
 upsert_dogs(url, dogs)
+upsert_dogs(url, dogs)
+print("All dogs: ", get_all_dog_ids(url))
 
