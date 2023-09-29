@@ -1,15 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { DogsService } from './dogs.service';
 import { CreateDogDto } from './dto/create-dog.dto';
-import { UpdateDogDto } from './dto/update-dog.dto';
 
 @Controller('dogs')
 export class DogsController {
@@ -25,24 +16,23 @@ export class DogsController {
     return this.dogsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dogsService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.dogsService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDogDto: UpdateDogDto) {
-    return this.dogsService.update(+id, updateDogDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateDogDto: UpdateDogDto) {
+  //   return this.dogsService.update(+id, updateDogDto);
+  // }
 
   @Post('upsert')
-  upsert(@Body() updateDogDto: UpdateDogDto) {
-    console.debug('upsert received: ', updateDogDto);
+  upsert(@Body() updateDogDto: CreateDogDto) {
     return this.dogsService.upsert(updateDogDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.dogsService.remove(+id);
+    return this.dogsService.remove(id);
   }
 }

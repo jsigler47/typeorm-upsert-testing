@@ -3,9 +3,9 @@ import requests
 url = "http://localhost:3000/dogs"
 
 dogs = [
-    {"id": 1000, "name": "Buddy", "age": 3, "breed": "Labrador", "owner": "Dave"},
-    {"id": 2000, "name": "Lucy", "age": 2, "breed": "Bulldog", "owner": "Jenna"},
-    {"id": 3000, "name": "Max", "age": 1, "breed": "German Shepherd", "owner": "Will"},
+    {"name": "Buddy", "age": 3, "breed": "Labrador", "owner": "Dave"},
+    {"name": "Lucy", "age": 2, "breed": "Bulldog", "owner": "Jenna"},
+    {"name": "Max", "age": 1, "breed": "German Shepherd", "owner": "Will"},
 ]
 
 def get_all_dog_ids(url):
@@ -30,17 +30,24 @@ def clear_database(url):
         delete_dog_by_id(url, dog_id)
 
 def upsert_dogs(url, dogs):
+    print(dogs)
+    dogs_with_ids = []
     for dog in dogs:
         response = requests.post(url + '/upsert', json=dog)
         if response.status_code == 201:
+            id = response.json()['identifiers'][0]['id']  # {'identifiers': [{'id': 131}], 'generatedMaps': [{'id': 131}], 'raw': [{'id': 131}]}
+            dog["id"] = id
+            dogs_with_ids.append(dog)
             print(f"Upsert successful for {dog['name']}. Response: {response.status_code}: {response.json()}")
         else:
             print(f"Upsert failed for {dog['name']}. Status Code: {response.status_code}")
+    return dogs_with_ids
 
 
-# clear_database(url)
+clear_database(url)
 print("All dogs: ", get_all_dog_ids(url))
-upsert_dogs(url, dogs)
-upsert_dogs(url, dogs)
+dogs_with_ids = upsert_dogs(url, dogs)
+upsert_dogs(url, dogs_with_ids)
+# upsert_dogs(url, dogs)
 print("All dogs: ", get_all_dog_ids(url))
 

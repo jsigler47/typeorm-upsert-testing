@@ -21,22 +21,32 @@ export class DogsService {
     return await this.dogsRepository.find();
   }
 
-  async findOne(id: number) {
-    return await this.dogsRepository.findOneBy({ id });
-  }
+  // async findOne(id: number) {
+  //   return await this.dogsRepository.findOneBy({ id });
+  // }
 
-  async update(id: number, updateDogDto: UpdateDogDto) {
-    return await this.dogsRepository.update(id, updateDogDto);
-  }
+  // async update(id: number, updateDogDto: UpdateDogDto) {
+  //   return await this.dogsRepository.update(id, updateDogDto);
+  // }
 
-  async upsert(updateDogDto: UpdateDogDto) {
+  async upsert(updateDogDto: CreateDogDto) {
+    console.debug('updateDogDto: ', updateDogDto);
+    // return await this.dogsRepository
+    //   .createQueryBuilder()
+    //   .insert()
+    //   .into(Dog)
+    //   .values(updateDogDto)
+    //   .orUpdate(['id', 'name', 'age', 'breed', 'owner'], ['id'], {
+    //     skipUpdateIfNoValuesChanged: true,
+    //   })
+    //   .execute();
     return await this.dogsRepository.upsert([updateDogDto], {
       conflictPaths: ['id'],
       skipUpdateIfNoValuesChanged: true,
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.dogsRepository.delete(id);
   }
 }
