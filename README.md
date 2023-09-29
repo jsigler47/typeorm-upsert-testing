@@ -32,6 +32,8 @@ Hypothesis: Per typeorm's documentation, if the option `skipUpdateIfNoValuesChan
 docker compose up -d
 # Start API
 npm run build && npm run start
+# or 
+npm run start:debug
 # Open postgres logs
 docker compose logs -f
 # Perform updates
@@ -45,11 +47,18 @@ curl -X POST http://localhost:3000/dogs/upsert \
 -d '{"name": "Buddy", "age": 3, "breed": "Labrador", "owner": "Dave"}'
 ```
 ## Results 
+Initial test:
 Screenshot and logs contained in `manual-testing/results`
 
 Given the 4 API calls in the script with 2 of the calls being identical, typeorm generated 4 queries and the postgres logs show 4 updates.
 This is undexpected based on the hypothesis.
 
+Final test:
+After stepping through the typeorm upsert functions it was determined that if the
+primary id of the object being updated is a number and the type of id generation
+is 'increment' then it is not passed in to the update.
+
+The way the upsert works in this case requires the id to be present. Changing the id to a generated uuid string works as expected.
 ## Installation
 
 ```bash
